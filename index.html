@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio BTS SIO SISR — Elliot Lebreton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0f0f0e;
+    --bg2: #161614;
+    --bg3: #1e1e1b;
+    --surface: #252522;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8e6df;
+    --muted: #8a8880;
+    --accent: #c8b89a;
+    --accent2: #e2cfa8;
+    --tag-bg: rgba(200,184,154,0.12);
+    --tag-color: #c8b89a;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+  html.light {
+    --bg: #f5f4f0;
+    --bg2: #eceae3;
+    --bg3: #e2e0d8;
+    --surface: #d8d5cc;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1a1917;
+    --muted: #6b6860;
+    --accent: #8a6f4e;
+    --accent2: #6b5035;
+    --tag-bg: rgba(138,111,78,0.10);
+    --tag-color: #7a5f40;
+  }
+  html.light body { background: var(--bg); }
+  html.light nav { background: rgba(245,244,240,0.88); }
+  html.light body::before { opacity: .18; }
+  .theme-toggle {
+    background: var(--tag-bg);
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background .2s, border-color .2s, color .2s, transform .2s;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent2); transform: rotate(20deg); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .45;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+    background: rgba(15,15,14,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  /* =========================================
+   SECTION PROCÉDURES (CARTES PDF)
+   ========================================= */
+
+/* 1. La grille qui aligne les cartes */
+#procedures .real-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch; /* Force toutes les cartes de la ligne à avoir la même hauteur */
+}
+
+/* 2. La carte en elle-même */
+#procedures .real-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem; /* On remet du padding pour que le texte ne touche pas les bords */
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column; /* Structure en colonne pour gérer l'espace vertical */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* 3. Effet au survol de la carte */
+#procedures .real-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+  background: var(--bg3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Légère ombre pour donner de la profondeur */
+}
+
+/* 4. Le bloc qui contient l'icône, le titre et le texte */
+#procedures .real-card > div:first-child {
+  flex-grow: 1; /* C'EST LA MAGIE : ce bloc prend tout l'espace vide et pousse le footer vers le bas */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 5. Style de l'icône */
+.real-card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 1.25rem;
+  line-height: 1;
+}
+
+/* 6. Style du titre */
+#procedures .real-card h3 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* 7. Style du texte descriptif */
+#procedures .real-card p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem; /* Laisse un espace avant le bouton PDF */
+}
+
+/* 8. Le footer ("Voir le PDF") toujours en bas */
+.real-card-footer {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto; /* Sécurité pour coller le footer tout en bas */
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border); /* Petite ligne de séparation propre */
+  transition: color 0.2s;
+}
+
+/* Changement de couleur du texte "Voir le PDF" quand on survole la carte */
+#procedures .real-card:hover .real-card-footer {
+  color: var(--accent2);
+}
+
+/* =========================================
+   CARTES DOUBLES (Procédure + Fiche épreuve)
+   ========================================= */
+
+#procedures .real-card-dual {
+  cursor: default;
+}
+#procedures .real-card-dual:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.real-card-dual-btns {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.dual-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.dual-btn-proc {
+  background: var(--tag-bg);
+  color: var(--accent);
+  border-color: rgba(200,184,154,0.25);
+}
+.dual-btn-proc:hover {
+  background: rgba(200,184,154,0.2);
+  border-color: var(--accent);
+  color: var(--accent2);
+  transform: translateY(-1px);
+}
+
+.dual-btn-fiche {
+  background: rgba(100,180,255,0.08);
+  color: #64b4ff;
+  border-color: rgba(100,180,255,0.2);
+}
+.dual-btn-fiche:hover {
+  background: rgba(100,180,255,0.16);
+  border-color: #64b4ff;
+  color: #90ccff;
+  transform: translateY(-1px);
+}
+
+  .nav-logo { font-family: var(--serif); font-size: 1.15rem; color: var(--accent2); text-decoration: none; letter-spacing: 0.01em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; transition: color .2s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 100%; height: 1px; background: var(--accent); transition: right .25s ease; }
+  .nav-links a:hover { color: var(--accent2); }
+  .nav-links a:hover::after { right: 0; }
+  section { min-height: 100vh; padding: 120px 3rem 80px; max-width: 1120px; margin: 0 auto; opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  section.visible { opacity: 1; transform: none; }
+  #accueil { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding-top: 140px; }
+  .hero-eyebrow { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: .75rem; }
+  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--accent); }
+  h1 { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 400; line-height: 1.12; color: var(--text); margin-bottom: 1.5rem; }
+  h1 em { font-style: italic; color: var(--accent2); }
+  .hero-desc { color: var(--muted); font-size: 1.05rem; max-width: 440px; line-height: 1.8; margin-bottom: 2.5rem; }
+  .hero-cta { display: inline-flex; align-items: center; gap: .6rem; background: var(--accent); color: #0f0f0e; font-weight: 500; font-size: 0.9rem; padding: .75rem 1.75rem; border-radius: 40px; text-decoration: none; letter-spacing: 0.02em; transition: background .2s, transform .2s; }
+  .hero-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+  .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+  .hero-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 340px; }
+  .hero-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--accent) 0%, #8a7a62 100%); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1.6rem; color: #0f0f0e; margin-bottom: 1.25rem; }
+  .hero-card h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: .25rem; }
+  .hero-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .tag { background: var(--tag-bg); color: var(--tag-color); font-size: 0.75rem; padding: .25rem .7rem; border-radius: 20px; border: 1px solid rgba(200,184,154,0.2); letter-spacing: 0.02em; }
+  .hero-deco { position: absolute; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(200,184,154,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+  .section-label { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; display: flex; align-items: center; gap: .75rem; }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+  h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 400; line-height: 1.18; margin-bottom: 1rem; color: var(--text); }
+  h2 em { font-style: italic; color: var(--accent2); }
+  .section-intro { color: var(--muted); max-width: 560px; margin-bottom: 3.5rem; font-size: 1rem; line-height: 1.8; }
+  #cv { min-height: auto; }
+  .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .cv-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; }
+  .cv-block-title { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem; padding-bottom: .75rem; border-bottom: 1px solid var(--border); }
+  .cv-entry { margin-bottom: 1.25rem; }
+  .cv-entry:last-child { margin-bottom: 0; }
+  .cv-entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .2rem; }
+  .cv-entry-title { font-weight: 500; font-size: .95rem; }
+  .cv-entry-date { font-size: .78rem; color: var(--muted); letter-spacing: .04em; }
+  .cv-entry-sub { font-size: .85rem; color: var(--accent); margin-bottom: .3rem; }
+  .cv-entry-desc { font-size: .85rem; color: var(--muted); }
+  .skills-list { display: flex; flex-wrap: wrap; gap: .5rem; }
+  #veille { min-height: auto; }
+  .veille-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; }
+  .veille-tab { background: none; border: 1px solid var(--border); color: var(--muted); padding: .5rem 1.25rem; border-radius: 30px; font-family: var(--sans); font-size: .85rem; cursor: pointer; transition: all .2s; }
+  .veille-tab.active, .veille-tab:hover { border-color: var(--accent); color: var(--accent2); background: var(--tag-bg); }
+  .veille-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .veille-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; transition: border-color .2s, transform .2s; cursor: pointer; }
+  .veille-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .veille-card-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+  .veille-type { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; padding: .2rem .6rem; border-radius: 12px; }
+  .veille-type.techno { background: rgba(100,180,255,.12); color: #64b4ff; }
+  .veille-type.juridique { background: rgba(255,180,100,.12); color: #ffb464; }
+  .veille-date { font-size: .78rem; color: var(--muted); }
+  .veille-card h4 { font-family: var(--serif); font-size: 1rem; font-weight: 400; margin-bottom: .5rem; color: var(--text); }
+  .veille-card p { font-size: .83rem; color: var(--muted); line-height: 1.65; }
+  .real-grid { display: grid; gap: 1.5rem; }
+  .real-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0; overflow: hidden; transition: border-color .2s; cursor: pointer; }
+  .real-card:hover { border-color: var(--border2); }
+  .real-card-inner { display: grid; grid-template-columns: 280px 1fr; }
+  .real-card-visual { background: var(--bg3); border-right: 1px solid var(--border); padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; }
+  .real-number { font-family: var(--serif); font-size: 4rem; font-weight: 400; color: rgba(200,184,154,.12); line-height: 1; align-self: flex-end; }
+  .real-ctx { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); }
+  .real-card-content { padding: 2rem; }
+  .real-card-content h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; margin-bottom: .5rem; color: var(--text); }
+  .real-card-content p { font-size: .88rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.7; }
+  .real-domains { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.25rem; }
+  .real-btn { display: inline-flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--accent); text-decoration: none; border: 1px solid rgba(200,184,154,.25); padding: .4rem 1rem; border-radius: 20px; transition: all .2s; }
+  .real-btn:hover { background: var(--tag-bg); border-color: var(--accent); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.75); backdrop-filter: blur(8px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); max-width: 760px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2.5rem; transform: translateY(20px); transition: transform .3s ease; scrollbar-width: thin; scrollbar-color: var(--surface) transparent; }
+  .modal-overlay.open .modal { transform: none; }
+  .modal-close { position: sticky; top: 0; float: right; background: var(--surface); border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: color .2s; z-index: 1; }
+  .modal-close:hover { color: var(--text); }
+  .modal h2 { font-size: 1.5rem; margin-bottom: .3rem; clear: both; }
+  .modal-meta { font-size: .82rem; color: var(--muted); margin-bottom: 2rem; display: flex; gap: 1rem; }
+  .fiche-section { margin-bottom: 2rem; }
+  .fiche-section-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: .5rem; margin-bottom: 1rem; }
+  .fiche-section p { font-size: .9rem; color: var(--muted); line-height: 1.75; }
+  .fiche-competences { display: grid; gap: .6rem; }
+  .fiche-comp { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; align-items: start; font-size: .875rem; padding: .6rem 0; border-bottom: 1px solid var(--border); }
+  .fiche-comp:last-child { border-bottom: none; }
+  .fiche-comp-name { color: var(--muted); font-size: .82rem; }
+  .fiche-comp-val { color: var(--text); }
+  .fiche-preuves { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .preuve-badge { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: .78rem; padding: .3rem .8rem; border-radius: 8px; display: flex; align-items: center; gap: .35rem; }
+  .preuve-badge::before { content: '⎘'; color: var(--accent); font-size: .7rem; }
+  .analyse-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  .analyse-block { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .analyse-block h5 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: .5rem; }
+  .analyse-block p { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+  #a-propos { min-height: auto; }
+  .projet-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .projet-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: border-color .25s, transform .25s; }
+  .projet-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+  .projet-card-visual { position: relative; height: 160px; overflow: hidden; background: var(--bg3); display: flex; align-items: center; justify-content: center; }
+  .projet-card-visual-bg { position: absolute; inset: 0; opacity: .18; font-family: var(--serif); font-size: 8rem; color: var(--accent); display: flex; align-items: center; justify-content: center; line-height: 1; pointer-events: none; }
+  .projet-card-visual-icon { font-size: 2.4rem; position: relative; z-index: 1; }
+  .projet-card-visual-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, var(--bg2) 100%); }
+  .projet-card-visual-title { position: absolute; bottom: .85rem; left: 1.25rem; right: 1.25rem; font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: var(--text); line-height: 1.25; z-index: 1; }
+  .projet-card-body { padding: 1.25rem 1.25rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+  .projet-card-sub { font-size: .78rem; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .6rem; }
+  .projet-card-desc { font-size: .85rem; color: var(--muted); line-height: 1.7; flex: 1; }
+  .projet-card-arrow { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; font-size: .8rem; color: var(--accent); letter-spacing: .04em; }
+  @media (max-width: 768px) { .projet-cards { grid-template-columns: 1fr; } }
+  #contact { min-height: auto; padding-bottom: 120px; }
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 900px; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; transition: border-color .2s, transform .2s; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 1rem; }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .contact-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--tag-bg); border: 1px solid rgba(200,184,154,.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .contact-info h4 { font-weight: 500; font-size: .9rem; margin-bottom: .15rem; }
+  .contact-info p { font-size: .82rem; color: var(--muted); }
+  footer { border-top: 1px solid var(--border); padding: 2rem 3rem; max-width: 1120px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: .82rem; color: var(--muted); }
+  .section-divider { max-width: 1120px; margin: 0 auto; height: 1px; background: var(--border); }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 3px; }
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { gap: 1.25rem; }
+    section { padding: 100px 1.25rem 60px; }
+    #accueil { grid-template-columns: 1fr; gap: 2.5rem; }
+    .cv-grid, .real-card-inner, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .veille-grid { grid-template-columns: 1fr 1fr; }
+    .analyse-grid { grid-template-columns: 1fr; }
+    .real-card-visual { display: none; }
+    footer { flex-direction: column; gap: .75rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#accueil">Elliot Lebreton</a>
+  <ul class="nav-links">
+    <li><a href="#cv">À propos</a></li>
+    <li><a href="#veille">Veille</a></li>
+    <li><a href="#procedures">Réalisations</a></li>
+    <li><a href="#a-propos">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="theme-toggle" id="themeBtn" title="Changer de thème" onclick="toggleTheme()">☀️</button>
+</nav>
+
+<section id="accueil">
+  <div>
+    <div class="hero-eyebrow">BTS SIO — Option SISR</div>
+    <h1>Étudiant en <em>infrastructure</em>, passionné de réseaux & systèmes</h1>
+    <p class="hero-desc">Étudiant en BTS SIO option SISR au sein de CaenSup Ste-Ursule, je développe des compétences en administration réseau, sécurité des systèmes, virtualisation et gestion de l'infrastructure informatique à travers mes stages au Centre Hospitalier de Bayeux.</p>
+    <a href="#procedures" class="hero-cta">Voir mes réalisations →</a>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-deco"></div>
+    <div class="hero-card">
+      <div class="hero-avatar">EL</div>
+      <h3>Elliot Lebreton</h3>
+      <p>BTS SIO SISR · Promotion 2024–2026<br/>CaenSup Ste-Ursule, Caen</p>
+      <div class="hero-tags">
+        <span class="tag">Windows Server</span>
+        <span class="tag">Linux Debian</span>
+        <span class="tag">Cisco</span>
+        <span class="tag">VLAN</span>
+        <span class="tag">Active Directory</span>
+        <span class="tag">Support N1</span>
+        <span class="tag">Scripting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="cv">
+  <div class="section-label">À propos</div>
+  <h2>Parcours & <em>compétences</em></h2>
+  <p class="section-intro">Étudiant en BTS SIO SISR avec une expérience pratique en environnement hospitalier, je maîtrise l'administration système, la gestion d'infrastructure réseau et le support technique de niveau 1.</p>
+
+  <div class="cv-grid">
+    <div>
+      <div class="cv-block">
+        <div class="cv-block-title">Formation</div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">BTS SIO — Option SISR</span>
+            <span class="cv-entry-date">2024 – 2026</span>
+          </div>
+          <div class="cv-entry-sub">CaenSup Ste-Ursule, Caen</div>
+          <div class="cv-entry-desc">Solutions d'Infrastructure, Systèmes et Réseaux. Administration système Windows/Linux, configuration réseau Cisco, virtualisation, sécurité et support utilisateurs.</div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Baccalauréat STI2D</span>
+            <span class="cv-entry-date">2023</span>
+          </div>
+          <div class="cv-entry-sub">Lycée, Caen</div>
+          <div class="cv-entry-desc">Spécialité Systèmes d'information et numérique.</div>
+        </div>
+      </div>
+
+      <div class="cv-block" style="margin-top:1.25rem">
+        <div class="cv-block-title">Expérience professionnelle</div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Technicien Informatique Stagiaire</span>
+            <span class="cv-entry-date">Mai – Juin 2025</span>
+          </div>
+          <div class="cv-entry-sub">Centre Hospitalier de Bayeux, Service Informatique</div>
+          <div class="cv-entry-desc">Développement d'un script d'automatisation pour le déploiement d'applications en masse, support technique niveau 1 (remplacement matériel, dépannage), gestion de tickets, mise à jour d'applicatifs à distance.</div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Technicien Infrastructure & Support</span>
+            <span class="cv-entry-date">Déc. 2025 – Janv. 2026</span>
+          </div>
+          <div class="cv-entry-sub">Centre Hospitalier de Bayeux, Service Informatique</div>
+          <div class="cv-entry-desc">Gestion complète d'une nouvelle infrastructure (pare-feux, switchs, bornes wifi), dépannage réseau sur site distant, rédaction de procédures (connexion wifi avec portail captif), support N1 et gestion de tickets.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cv-block">
+        <div class="cv-block-title">Compétences techniques</div>
+        <div style="margin-bottom:1rem">
+          <div class="cv-entry-sub" style="margin-bottom:.5rem">Réseaux & télécoms</div>
+          <div class="skills-list">
+            <span class="tag">TCP/IP</span><span class="tag">VLAN</span><span class="tag">Cisco IOS</span>
+            <span class="tag">Pare-feux</span><span class="tag">DNS / DHCP</span><span class="tag">Wifi / Bornes</span>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem">
+          <div class="cv-entry-sub" style="margin-bottom:.5rem">Systèmes & scripting</div>
+          <div class="skills-list">
+            <span class="tag">Windows Server</span><span class="tag">Linux Debian</span>
+            <span class="tag">Active Directory</span><span class="tag">PowerShell</span>
+            <span class="tag">Bash</span><span class="tag">Déploiement masse</span>
+          </div>
+        </div>
+        <div>
+          <div class="cv-entry-sub" style="margin-bottom:.5rem">Support & gestion</div>
+          <div class="skills-list">
+            <span class="tag">Support N1</span><span class="tag">Gestion tickets</span>
+            <span class="tag">Maintenance matériel</span><span class="tag">Rédaction procédures</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block" style="margin-top:1.25rem">
+        <div class="cv-block-title">Langues & divers</div>
+        <div class="cv-entry">
+          <div class="cv-entry-header"><span class="cv-entry-title">Français</span></div>
+          <div class="cv-entry-desc">Langue maternelle</div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header"><span class="cv-entry-title">Anglais</span></div>
+          <div class="cv-entry-desc">B2 — Lu, écrit, parlé. Lecture courante de documentations techniques (RFC, datasheets Cisco, man pages).</div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header"><span class="cv-entry-title">Permis B</span></div>
+          <div class="cv-entry-desc">Permis de conduire — véhicule personnel disponible.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="veille">
+  <div class="section-label">Veille technologique</div>
+  <h2>Actualité <em>infrastructure</em> & cybersécurité</h2>
+  <p class="section-intro">Suivi régulier des évolutions technologiques en infrastructure réseau, administration système, virtualisation et cybersécurité appliquées au milieu hospitalier et aux SI critiques.</p>
+
+  <div class="veille-grid" id="veille-grid">
+
+    <div class="veille-card" data-type="techno">
+      <div class="veille-card-meta">
+        <span class="veille-type techno">Sécurité</span>
+        <span class="veille-date">Avril 2025</span>
+      </div>
+      <h4>Vulnérabilités critiques dans les pare-feux Fortinet et Palo Alto</h4>
+      <p>Analyse des CVE récentes touchant FortiGate (CVE-2024-55591) et PAN-OS, avec correctifs disponibles et impact sur les infrastructures hospitalières utilisant ces équipements.</p>
+    </div>
+
+    <div class="veille-card" data-type="techno">
+      <div class="veille-card-meta">
+        <span class="veille-type techno">Réseau</span>
+        <span class="veille-date">Mars 2025</span>
+      </div>
+      <h4>Wi-Fi 7 (802.11be) : déploiement et enjeux pour les établissements de santé</h4>
+      <p>Nouvelles fonctionnalités du Wi-Fi 7, compatibilité avec les équipements médicaux connectés, planification de migration depuis Wi-Fi 6 et recommandations pour l'infrastructure hospitalière.</p>
+    </div>
+
+    <div class="veille-card" data-type="techno">
+      <div class="veille-card-meta">
+        <span class="veille-type techno">Système</span>
+        <span class="veille-date">Mars 2025</span>
+      </div>
+      <h4>Windows Server 2025 : nouvelles fonctionnalités pour l'administration</h4>
+      <p>Tour d'horizon des améliorations dans Active Directory, Hyper-V, les conteneurs Windows, le chiffrement SMB et les outils d'administration à distance. Compatibilité avec les SI existants.</p>
+    </div>
+
+    <div class="veille-card" data-type="techno">
+      <div class="veille-card-meta">
+        <span class="veille-type techno">Virtualisation</span>
+        <span class="veille-date">Fév. 2025</span>
+      </div>
+      <h4>Proxmox VE 8.2 : alternative open-source à VMware pour les PME</h4>
+      <p>Présentation de Proxmox Virtual Environment comme solution de virtualisation après les changements tarifaires de VMware. Migration, fonctionnalités, haute disponibilité et retour d'expérience.</p>
+    </div>
+
+    <div class="veille-card" data-type="techno">
+      <div class="veille-card-meta">
+        <span class="veille-type techno">Sécurité</span>
+        <span class="veille-date">Janv. 2025</span>
+      </div>
+      <h4>Attaques par ransomware sur les hôpitaux : retour d'expérience 2024</h4>
+      <p>Analyse des incidents LockBit et BlackCat visant le secteur hospitalier français, mesures de protection (segmentation réseau, sauvegardes hors-ligne, EDR), plan de continuité d'activité.</p>
+    </div>
+
+    <div class="veille-card" data-type="techno">
+      <div class="veille-card-meta">
+        <span class="veille-type techno">Réseau</span>
+        <span class="veille-date">Déc. 2024</span>
+      </div>
+      <h4>Cisco IOS XE : correctifs de sécurité et fin de support des anciennes versions</h4>
+      <p>Mise à jour critique sur les vulnérabilités IOS XE, calendrier de fin de vie des versions 16.x et 17.x, migration vers IOS XE 17.12+ et impact sur les switchs Catalyst en production.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="procedures">
+  <div class="section-label">Documentation Technique</div>
+  <h2>Mes <em>Procédures</em></h2>
+  
+  <div class="real-grid">
+
+    <a href="Procedures/DHCP.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Service DHCP</h3>
+        <p>Installation et configuration d'un serveur DHCP sous Linux Debian et Cisco.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <a href="Procedures/DNS.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Serveur DNS</h3>
+        <p>Mise en place d'une résolution de noms avec Bind9.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <a href="Procedures/VPN.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Accès VPN</h3>
+        <p>Configuration de tunnels sécurisés pour le travail à distance.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <a href="Procedures/Windows_Server.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Active Directory</h3>
+        <p>Gestion des utilisateurs et GPO.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <a href="Procedures/Docker.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Docker</h3>
+        <p>Conteneurisation de services.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <a href="Procedures/HAProxy.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>HAProxy</h3>
+        <p>Load balancing et haute disponibilité.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <a href="Procedures/MITM.pdf" target="_blank" class="real-card">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Sécurité MITM</h3>
+        <p>Analyse des attaques Man-In-The-Middle.</p>
+      </div>
+      <div class="real-card-footer">Voir le PDF ↗</div>
+    </a>
+
+    <div class="real-card real-card-dual">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>Proxmox</h3>
+        <p>Virtualisation et gestion VM.</p>
+      </div>
+      <div class="real-card-dual-btns">
+        <a href="Procedures/Proxmox.pdf" download="Proxmox.pdf" class="dual-btn dual-btn-proc">
+          <span>📄</span> Procédure
+        </a>
+        <a href="Fiches/Proxmox_fiche.pdf" download="Proxmox_fiche.pdf" class="dual-btn dual-btn-fiche">
+          <span>📋</span> Fiche épreuve
+        </a>
+      </div>
+    </div>
+
+    <div class="real-card real-card-dual">
+      <div>
+        <div class="real-card-icon"></div>
+        <h3>WiFi & Portail</h3>
+        <p>Déploiement WiFi avec portail captif.</p>
+      </div>
+      <div class="real-card-dual-btns">
+        <a href="Procedures/Infrastructure_WiFi.pdf" download="Infrastructure_WiFi.pdf" class="dual-btn dual-btn-proc">
+          <span>📄</span> Procédure
+        </a>
+        <a href="Fiches/Infrastructure_WiFi_fiche.pdf" download="Infrastructure_WiFi_fiche.pdf" class="dual-btn dual-btn-fiche">
+          <span>📋</span> Fiche épreuve
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="a-propos">
+  <div class="section-label">Projets</div>
+  <h2>Mes <em>ambitions</em></h2>
+  <p class="section-intro">Mon parcours après le BTS SIO SISR — trois étapes pour atteindre le métier qui me passionne.</p>
+
+  <div class="projet-cards">
+
+    <div class="projet-card">
+      <div class="projet-card-visual">
+        <div class="projet-card-visual-bg">01</div>
+        <div class="projet-card-visual-overlay"></div>
+        <div class="projet-card-visual-title">Licence STS</div>
+      </div>
+      <div class="projet-card-body">
+        <div class="projet-card-sub">Sécurité des réseaux et Cybersécurité</div>
+        <p class="projet-card-desc">Cette licence va être effectuée en alternance et va me permettre de me spécialiser dans les métiers de la sécurisation des réseaux.</p>
+        <span class="projet-card-arrow">Étape 1 →</span>
+      </div>
+    </div>
+
+    <div class="projet-card">
+      <div class="projet-card-visual">
+        <div class="projet-card-visual-bg">02</div>
+        <div class="projet-card-visual-overlay"></div>
+        <div class="projet-card-visual-title">Mastère Cybersécurité</div>
+      </div>
+      <div class="projet-card-body">
+        <div class="projet-card-sub">CaenSup Ste-Ursule</div>
+        <p class="projet-card-desc">Après ma licence, je souhaite intégrer le Mastère Cybersécurité proposé par CaenSup pour approfondir mes compétences offensive et défensive.</p>
+        <span class="projet-card-arrow">Étape 2 →</span>
+      </div>
+    </div>
+
+    <div class="projet-card">
+      <div class="projet-card-visual">
+        <div class="projet-card-visual-bg">03</div>
+        <div class="projet-card-visual-overlay"></div>
+        <div class="projet-card-visual-title">Marché du travail</div>
+      </div>
+      <div class="projet-card-body">
+        <div class="projet-card-sub">Administrateur Réseau</div>
+        <p class="projet-card-desc">Mon objectif est de travailler en tant qu'administrateur réseau, en gérant et sécurisant des infrastructures d'entreprise au quotidien.</p>
+        <span class="projet-card-arrow">Objectif final →</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2>Me <em>contacter</em></h2>
+  <p class="section-intro">N'hésitez pas à me contacter pour toute question relative à mon portfolio ou à mes réalisations.</p>
+  <div class="contact-grid">
+    <a class="contact-card" href="mailto:eliott.lebreton@sts-sio-caen.info?subject=Contact%20depuis%20ton%20Portfolio">
+      <div class="contact-icon">✉</div>
+      <div class="contact-info">
+        <h4>Email</h4>
+        <p>eliott.lebreton@sts-sio-caen.info</p>
+      </div>
+    </a>
+<a class="contact-card" href="CV_Elliot_LEBRETON.pdf" download="CV_Elliot_LEBRETON.pdf">
+  <div class="contact-icon">↓</div>
+  <div class="contact-info">
+    <h4>CV PDF</h4>
+    <p>Télécharger mon CV complet</p>
+  </div>
+</a>
+<a class="contact-card" href="Tableau_Synthese_E5_Elliot_Lebreton.pdf" download="Tableau_Synthese_E5_Elliot_Lebreton.pdf">
+  <div class="contact-icon">📋</div>
+  <div class="contact-info">
+    <h4>Tableau de synthèse E5</h4>
+    <p>Annexe VI-5 Épreuve E5</p>
+  </div>
+</a>
+  </div>
+</section>
+
+<footer>
+  <span>Portfolio BTS SIO — Elliot Lebreton · 2024–2026</span>
+  <span>CaenSup Ste-Ursule · Option SISR</span>
+</footer>
+
+<div class="modal-overlay" id="modal1" onclick="closeOnOverlay(event, 'modal1')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal1')">×</button>
+    <div class="section-label" style="margin-bottom:.5rem">Fiche de réalisation n°01</div>
+    <h2>Déploiement et segmentation d'un réseau d'entreprise</h2>
+    <div class="modal-meta">
+      <span> CH Bayeux</span>
+      <span> Mai – Juin 2025</span>
+      <span> Technicien réseau</span>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">1 — Description</div>
+      <p>Mission axée sur la sécurisation du réseau local par la mise en place de VLANs sur des commutateurs Cisco, permettant l'isolation des flux sensibles du reste de l'infrastructure hospitalière.</p>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">2 — Compétences mobilisées</div>
+      <div class="fiche-competences">
+        <div class="fiche-comp">
+          <span class="fiche-comp-name">Service informatique</span>
+          <span class="fiche-comp-val">Configuration des équipements Cisco (CLI), routage inter-VLAN, sécurisation des ports.</span>
+        </div>
+      </div>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">3 — Éléments de preuve</div>
+      <div class="fiche-preuves">
+        <span class="preuve-badge">Schéma réseau</span>
+        <span class="preuve-badge">Captures CLI</span>
+        <span class="preuve-badge">Tests de connectivité</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal2" onclick="closeOnOverlay(event, 'modal2')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal2')">×</button>
+    <div class="section-label" style="margin-bottom:.5rem">Fiche de réalisation n°02</div>
+    <h2>Administration d'un domaine Active Directory</h2>
+    <div class="modal-meta">
+      <span> Formation — TP noté</span>
+      <span> Novembre 2024</span>
+      <span> Administrateur système</span>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">1 — Description</div>
+      <p>Installation et configuration complète d'un environnement AD sous Windows Server 2022, incluant la gestion des utilisateurs, des groupes et l'application de stratégies de groupe (GPO) pour sécuriser les postes clients.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal3" onclick="closeOnOverlay(event, 'modal3')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal3')">×</button>
+    <div class="section-label" style="margin-bottom:.5rem">Fiche de réalisation n°03</div>
+    <h2>Supervision réseau avec Zabbix</h2>
+    <div class="modal-meta">
+      <span> CH Bayeux</span>
+      <span> Déc. 2025 – Janv. 2026</span>
+      <span> Technicien supervision</span>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">1 — Description</div>
+      <p>Déploiement d'un serveur Zabbix pour surveiller la disponibilité des équipements critiques du réseau hospitalier. Configuration d'alertes SNMP pour une détection proactive des pannes.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeOnOverlay(e, id) {
+    if (e.target === e.currentTarget) closeModal(id);
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    html.classList.toggle('light');
+    const isLight = html.classList.contains('light');
+    btn.textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.add('light');
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('themeBtn');
+        if (btn) btn.textContent = '🌙';
+      });
+    }
+  })();
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent2)' : '';
+    });
+  });
+</script>
+</body>
+</html>
