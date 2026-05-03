@@ -327,6 +327,134 @@
   .analyse-block { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
   .analyse-block h5 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: .5rem; }
   .analyse-block p { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+  /* =========================================
+     SECTION ACTIVITÉS EN STAGE
+     ========================================= */
+  #stage { min-height: auto; }
+  .stage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+  .stage-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .3s, transform .3s, box-shadow .3s;
+  }
+  .stage-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .stage-card-header {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    padding: 1.75rem 1.75rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .stage-card-header::before {
+    content: attr(data-num);
+    position: absolute;
+    right: 1.25rem;
+    bottom: -0.5rem;
+    font-family: var(--serif);
+    font-size: 5.5rem;
+    color: rgba(200,184,154,0.07);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .stage-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid rgba(200,184,154,.2);
+    padding: .25rem .75rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .stage-card-header h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.25;
+    position: relative;
+    z-index: 1;
+  }
+  .stage-card-body {
+    padding: 1.5rem 1.75rem 1.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .stage-card-desc {
+    font-size: .88rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .stage-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .stage-tag {
+    background: var(--surface);
+    color: var(--muted);
+    font-size: .75rem;
+    padding: .2rem .65rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 768px) { .stage-grid { grid-template-columns: 1fr; } }
+
+  .stage-proof-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    margin-top: 1.1rem;
+    padding: .5rem 1.1rem;
+    background: none;
+    border: 1px solid rgba(200,184,154,0.3);
+    color: var(--accent);
+    border-radius: 30px;
+    font-family: var(--sans);
+    font-size: .8rem;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: .03em;
+    transition: all .2s;
+    align-self: flex-start;
+  }
+  .stage-proof-btn:hover {
+    background: var(--tag-bg);
+    border-color: var(--accent);
+    color: var(--accent2);
+    transform: translateY(-1px);
+  }
+
+  /* Modal preuve image */
+  .modal-proof-img {
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-top: 1.25rem;
+    display: block;
+  }
+
   #a-propos { min-height: auto; }
   .projet-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .projet-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: border-color .25s, transform .25s; }
@@ -374,6 +502,7 @@
     <li><a href="#cv">À propos</a></li>
     <li><a href="#veille">Veille</a></li>
     <li><a href="#procedures">Réalisations</a></li>
+    <li><a href="#stage">Stage</a></li>
     <li><a href="#a-propos">Projets</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -646,10 +775,10 @@
         <p>Virtualisation et gestion VM.</p>
       </div>
       <div class="real-card-dual-btns">
-        <a href="Proxmox.pdf" target="_blank" class="dual-btn dual-btn-proc">
+        <a href="Proxmox.pdf" download="Proxmox.pdf" class="dual-btn dual-btn-proc">
           <span></span> Procédure
         </a>
-        <a href="Proxmox_fiche.pdf" target="_blank" class="dual-btn dual-btn-proc">
+        <a href="Proxmox_fiche.pdf" download="Proxmox_fiche.pdf" class="dual-btn dual-btn-fiche">
           <span></span> Fiche épreuve
         </a>
       </div>
@@ -662,12 +791,76 @@
         <p>Déploiement WiFi avec portail captif.</p>
       </div>
       <div class="real-card-dual-btns">
-        <a href="Infrastructure_WiFi.pdf" target="_blank" class="dual-btn dual-btn-proc">
+        <a href="Infrastructure_WiFi.pdf" download="Infrastructure_WiFi.pdf" class="dual-btn dual-btn-proc">
           <span></span> Procédure
         </a>
-        <a href="Infrastructure_WiFi_fiche.pdf" dtarget="_blank" class="dual-btn dual-btn-proc">
+        <a href="Infrastructure_WiFi_fiche.pdf" download="Infrastructure_WiFi_fiche.pdf" class="dual-btn dual-btn-fiche">
           <span></span> Fiche épreuve
         </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="stage">
+  <div class="section-label">CH Bayeux · 2024 – 2026</div>
+  <h2>Activités réalisées <em>en stage</em></h2>
+  <p class="section-intro">Deux missions techniques menées au sein du service informatique du Centre Hospitalier de Bayeux, dans un environnement réseau professionnel et critique.</p>
+
+  <div class="stage-grid">
+
+    <div class="stage-card">
+      <div class="stage-card-header" data-num="01">
+        <div class="stage-card-badge">🏥 Stage 1 · Mai – Juin 2025</div>
+        <h3>Script d'automatisation KeePass — déploiement sur 1 000+ postes</h3>
+      </div>
+      <div class="stage-card-body">
+        <p class="stage-card-desc">
+          Développement d'un script d'automatisation permettant l'installation et la configuration de KeePass en masse sur l'ensemble du parc informatique du Centre Hospitalier de Bayeux, soit plus de 1 000 postes Windows.
+        </p>
+        <p class="stage-card-desc">
+          Le script gère le téléchargement silencieux, l'installation sans interaction utilisateur, la configuration des paramètres par défaut et le déploiement via GPO afin de standardiser la gestion des mots de passe sur tout le parc.
+        </p>
+        <div class="stage-card-tags">
+          <span class="stage-tag">PowerShell</span>
+          <span class="stage-tag">KeePass</span>
+          <span class="stage-tag">Déploiement masse</span>
+          <span class="stage-tag">GPO</span>
+          <span class="stage-tag">Active Directory</span>
+          <span class="stage-tag">1 000+ postes</span>
+        </div>
+        <button class="stage-proof-btn" onclick="openModal('modalStage1')">
+          <span>🖼</span> Voir la preuve — script
+        </button>
+      </div>
+    </div>
+
+    <div class="stage-card">
+      <div class="stage-card-header" data-num="02">
+        <div class="stage-card-badge">🏥 Stage 2 · Déc. 2025 – Janv. 2026</div>
+        <h3>Création d'une nouvelle infrastructure réseau complète</h3>
+      </div>
+      <div class="stage-card-body">
+        <p class="stage-card-desc">
+          Conception et déploiement de A à Z d'une nouvelle infrastructure réseau pour l'ouverture d'un nouveau site hospitalier : gestion des pare-feux, configuration des switches, installation et paramétrage des bornes Wi-Fi.
+        </p>
+        <p class="stage-card-desc">
+          Réalisation du schéma d'infrastructure complet, câblage et mise en service de l'ensemble des équipements réseau, avec configuration des règles de sécurité et segmentation des flux.
+        </p>
+        <div class="stage-card-tags">
+          <span class="stage-tag">Pare-feu</span>
+          <span class="stage-tag">Switches</span>
+          <span class="stage-tag">Bornes Wi-Fi</span>
+          <span class="stage-tag">Schéma réseau</span>
+          <span class="stage-tag">Câblage</span>
+          <span class="stage-tag">Mise en service</span>
+        </div>
+        <button class="stage-proof-btn" onclick="openModal('modalStage2')">
+          <span>🖼</span> Voir la preuve — schéma infrastructure
+        </button>
       </div>
     </div>
 
@@ -739,14 +932,14 @@
         <p>eliott.lebreton@sts-sio-caen.info</p>
       </div>
     </a>
-<a class="contact-card" href="CV_Elliot_LEBRETON.pdf" target="_blank" class="real-card">
+<a class="contact-card" href="CV_Elliot_LEBRETON.pdf" download="CV_Elliot_LEBRETON.pdf">
   <div class="contact-icon">↓</div>
   <div class="contact-info">
     <h4>CV PDF</h4>
     <p>Télécharger mon CV complet</p>
   </div>
 </a>
-<a class="contact-card" href="Tableau_Synthese_E5_Elliot_Lebreton.pdf" target="_blank" class="real-card">
+<a class="contact-card" href="Tableau_Synthese_E5_Elliot_Lebreton.pdf" download="Tableau_Synthese_E5_Elliot_Lebreton.pdf">
   <div class="contact-icon">📋</div>
   <div class="contact-info">
     <h4>Tableau de synthèse E5</h4>
@@ -825,6 +1018,48 @@
     <div class="fiche-section">
       <div class="fiche-section-title">1 — Description</div>
       <p>Déploiement d'un serveur Zabbix pour surveiller la disponibilité des équipements critiques du réseau hospitalier. Configuration d'alertes SNMP pour une détection proactive des pannes.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalStage1" onclick="closeOnOverlay(event, 'modalStage1')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modalStage1')">×</button>
+    <div class="section-label" style="margin-bottom:.5rem">Preuve · Stage 1</div>
+    <h2>Script d'automatisation KeePass</h2>
+    <div class="modal-meta">
+      <span> CH Bayeux</span>
+      <span>Mai – Juin 2025</span>
+      <span>Déploiement sur 1 000+ postes</span>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">Capture d'écran du script</div>
+      <p>Script PowerShell développé pour automatiser l'installation silencieuse et la configuration de KeePass sur l'ensemble du parc informatique du Centre Hospitalier de Bayeux.</p>
+      <img src="keepass.png" alt="Capture du script d'automatisation KeePass" class="modal-proof-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div style="display:none; align-items:center; justify-content:center; background:var(--bg3); border:1px dashed var(--border2); border-radius:var(--radius); padding:2.5rem; margin-top:1.25rem; color:var(--muted); font-size:.85rem; gap:.6rem;">
+        <span style="font-size:1.4rem">🖼</span> Remplace <code style="color:var(--accent)">preuve_script_keepass.png</code> par ton fichier image
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalStage2" onclick="closeOnOverlay(event, 'modalStage2')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modalStage2')">×</button>
+    <div class="section-label" style="margin-bottom:.5rem">Preuve · Stage 2</div>
+    <h2>Schéma de la nouvelle infrastructure</h2>
+    <div class="modal-meta">
+      <span> CH Bayeux</span>
+      <span>Déc. 2025 – Janv. 2026</span>
+      <span>Nouvelle infrastructure complète</span>
+    </div>
+    <div class="fiche-section">
+      <div class="fiche-section-title">Schéma d'infrastructure réseau</div>
+      <p>Schéma complet de la nouvelle infrastructure réseau déployée de A à Z : pare-feux, switches, bornes Wi-Fi et segmentation des flux pour le nouveau site hospitalier.</p>
+      <img src="IFAS.png" alt="Schéma de la nouvelle infrastructure réseau" class="modal-proof-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div style="display:none; align-items:center; justify-content:center; background:var(--bg3); border:1px dashed var(--border2); border-radius:var(--radius); padding:2.5rem; margin-top:1.25rem; color:var(--muted); font-size:.85rem; gap:.6rem;">
+        <span style="font-size:1.4rem">🖼</span> Remplace <code style="color:var(--accent)">preuve_schema_infra.png</code> par ton fichier image
+      </div>
     </div>
   </div>
 </div>
